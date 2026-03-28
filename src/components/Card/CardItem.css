@@ -1,0 +1,67 @@
+.card-item {
+  background: #22272b;
+  border-radius: 8px;
+  padding: 8px 10px 6px;
+  margin: 0 0 6px;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(9,30,66,.25);
+  transition: background .1s, box-shadow .1s, transform .1s;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
+  word-break: break-word;
+}
+.card-item:hover {
+  background: #282e33;
+  box-shadow: 0 4px 8px rgba(0,0,0,.3);
+  border-color: rgba(255,255,255,.1);
+  transform: translateY(-1px);
+}
+.card-item:hover .card-edit-btn { opacity: 1; }
+.card-item.dragging { opacity: .5; box-shadow: var(--shadow-lg); }
+
+.card-cover {
+  height: 32px; margin: -8px -10px 8px; border-radius: 6px 6px 0 0;
+}
+
+.card-labels {
+  display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px;
+}
+.card-labels .label-pill {
+  height: 8px; min-width: 32px; max-width: 40px; flex: 1;
+  border-radius: 4px; display: block;
+  transition: min-width .15s, height .15s;
+}
+.card-item:hover .card-labels .label-pill { height: 16px; }
+
+.card-title {
+  font-size: 14px; font-weight: 400; color: #b6c2cf; line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.card-badges {
+  display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0 2px;
+  align-items: center;
+}
+.card-badge {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 11px; font-weight: 500; color: #9fadbc;
+  background: rgba(255,255,255,.08); border-radius: 3px;
+  padding: 2px 5px;
+}
+.badge-due.complete  { background: #1f845a; color: #fff; }
+.badge-due.overdue   { background: #ae2a19; color: #fff; }
+.badge-due.soon      { background: #7f5f01; color: #f8e6a0; }
+.badge-checklist.complete { background: #1f845a; color: #fff; }
+
+.card-members {
+  display: flex; flex-wrap: wrap; gap: 3px; margin-top: 5px; justify-content: flex-end;
+}
+
+.card-edit-btn {
+  position: absolute; top: 6px; right: 6px; z-index: 2;
+  background: #282e33; border: 1px solid rgba(255,255,255,.15);
+  border-radius: 4px; color: #9fadbc; cursor: pointer;
+  padding: 3px 5px; font-size: 11px; opacity: 0; transition: opacity .15s, background .1s;
+}
+.card-edit-btn:hover { background: #38414a; }

@@ -1,0 +1,35 @@
+.filter-bar { position: relative; display: flex; align-items: center; gap: 6px; }
+
+.board-header-action {
+  background: rgba(255,255,255,.2); border: none; color: #fff;
+  padding: 5px 10px; border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm); font-weight: 500; font-family: var(--font);
+  cursor: pointer; display: flex; align-items: center; gap: 6px;
+  transition: background .1s; white-space: nowrap;
+}
+.board-header-action:hover { background: rgba(255,255,255,.3); }
+.board-header-action.active { background: rgba(255,200,0,.4); }
+
+.filter-popover {
+  position: absolute; top: calc(100% + 8px); right: 0; z-index: 200;
+  background: var(--surface); border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg); width: 260px;
+  animation: fadeIn .15s ease;
+}
+@keyframes fadeIn { from { opacity:0; transform: translateY(-4px); } to { opacity:1; transform:none; } }
+
+.filter-body { padding: 8px; max-height: 400px; overflow-y: auto; }
+.filter-section { margin-bottom: 4px; }
+.filter-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing:.04em; padding: 4px 4px 6px; }
+
+.filter-member, .filter-label-item, .filter-due-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 8px; border-radius: var(--radius-sm); cursor: pointer;
+  font-size: var(--font-size-sm); transition: background .1s;
+  position: relative;
+}
+.filter-member:hover, .filter-label-item:hover, .filter-due-item:hover { background: var(--surface-2); }
+.filter-member.selected, .filter-label-item.selected, .filter-due-item.selected { background: var(--trello-blue-light); }
+
+.filter-label-swatch { width: 32px; height: 16px; border-radius: 3px; flex-shrink: 0; }
+.check { margin-left: auto; color: var(--trello-blue); font-weight: 700; }

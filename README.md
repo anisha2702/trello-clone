@@ -1,70 +1,216 @@
-# Getting Started with Create React App
+# Trello Clone — SDE Intern Fullstack Assignment
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack Kanban project management application replicating Trello's design and user experience.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Tech Stack
 
-### `npm start`
+| Layer      | Technology                            |
+|------------|---------------------------------------|
+| Frontend   | React 18, React Router v6, @dnd-kit   |
+| Backend    | Node.js, Express.js                   |
+| Database   | MySQL 8                               |
+| Styling    | Custom CSS (no framework)             |
+| DnD        | @dnd-kit/core + @dnd-kit/sortable     |
+| HTTP       | Axios                                 |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features Implemented
 
-### `npm test`
+### Core
+- ✅ Multiple boards with custom background colors
+- ✅ Create, rename, delete lists (columns)
+- ✅ Drag-and-drop list reordering
+- ✅ Create, edit, archive cards
+- ✅ Drag-and-drop cards within and between lists
+- ✅ Card labels (colored tags, per-board)
+- ✅ Card due dates with overdue/today indicators
+- ✅ Checklists with items (complete/incomplete)
+- ✅ Assign members to cards
+- ✅ Search cards by title (header search)
+- ✅ Filter cards by labels, members, due date
+- ✅ Card cover colors
+- ✅ Comments / activity on cards
+- ✅ Star/unstar boards
+- ✅ Sample seed data (5 members, 2 boards, 15 cards)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Database Schema
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Tables
+- **members** — users; `is_default=1` marks the logged-in user (no auth)
+- **boards** — boards with background color, owner
+- **board_members** — many-to-many boards ↔ members with role
+- **lists** — columns within a board, ordered by `position` (DECIMAL for gap-based ordering)
+- **labels** — per-board colored labels
+- **cards** — cards within lists, ordered by `position`, support archive/cover/due
+- **card_labels** — many-to-many cards ↔ labels
+- **card_members** — many-to-many cards ↔ members
+- **checklists** — checklists attached to cards
+- **checklist_items** — items in a checklist
+- **comments** — comments on cards
+- **activity_log** — audit log for card/board actions
+- **attachments** — file attachments on cards (schema ready)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Key Design Decisions
+- **Position ordering** uses `DECIMAL(10,5)` instead of integer indices, so single-item moves only update one row (no renumbering). New items get `maxPos + 1000`; after many moves the frontend sends a full reorder.
+- **Soft deletes** via `is_archived` flag — data is never hard-deleted (except on cascade).
+- **Separate `board_id` on cards** — denormalized for fast board-scoped queries without joining through lists.
+- **JSON `data` column on activity_log** — flexible schema for action payloads without schema migrations.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Setup Instructions
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Prerequisites
+- Node.js 18+
+- MySQL 8 running locally
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 1. Clone / extract the project
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+trello-clone/
+├── backend/
+└── frontend/
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 2. Database setup
 
-## Learn More
+```bash
+# Create the DB and run schema
+cd backend
+cp .env.example .env
+# Edit .env with your MySQL credentials
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+npm install
+npm run migrate    # creates DB + all tables
+npm run seed       # seeds sample data
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 3. Start the backend
 
-### Code Splitting
+```bash
+# from /backend
+npm run dev        # nodemon auto-reload on port 5000
+# or
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 4. Start the frontend
 
-### Analyzing the Bundle Size
+```bash
+cd frontend
+npm install
+npm start          # opens http://localhost:3000
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The frontend proxies `/api/*` to `http://localhost:5000` automatically (set in `package.json`).
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Environment Variables (backend/.env)
 
-### Advanced Configuration
+```env
+PORT=5000
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=your_password_here
+DB_NAME=trello_clone
+NODE_ENV=development
+FRONTEND_URL=http://localhost:3000
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+## API Endpoints
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Boards
+| Method | Path | Description |
+|--------|------|-------------|
+| GET    | /api/boards | List all boards |
+| POST   | /api/boards | Create board |
+| GET    | /api/boards/:id | Full board (lists + cards + labels + members) |
+| PATCH  | /api/boards/:id | Update board |
+| DELETE | /api/boards/:id | Archive board |
+| GET    | /api/boards/:id/activity | Board activity log |
 
-### `npm run build` fails to minify
+### Lists
+| Method | Path | Description |
+|--------|------|-------------|
+| POST   | /api/lists | Create list |
+| PATCH  | /api/lists/:id | Rename list |
+| DELETE | /api/lists/:id | Archive list |
+| POST   | /api/lists/reorder | Bulk reorder lists |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Cards
+| Method | Path | Description |
+|--------|------|-------------|
+| GET    | /api/cards/:id | Full card detail |
+| POST   | /api/cards | Create card |
+| PATCH  | /api/cards/:id | Update card |
+| DELETE | /api/cards/:id | Archive card |
+| POST   | /api/cards/reorder | Bulk move/reorder cards |
+| POST   | /api/cards/:id/labels | Add label |
+| DELETE | /api/cards/:id/labels/:labelId | Remove label |
+| POST   | /api/cards/:id/members | Assign member |
+| DELETE | /api/cards/:id/members/:memberId | Remove member |
+| POST   | /api/cards/:id/checklists | Add checklist |
+| DELETE | /api/cards/:id/checklists/:clId | Delete checklist |
+| POST   | /api/cards/:id/checklists/:clId/items | Add item |
+| PATCH  | /api/cards/:id/checklists/:clId/items/:itemId | Update item |
+| DELETE | /api/cards/:id/checklists/:clId/items/:itemId | Delete item |
+| POST   | /api/cards/:id/comments | Add comment |
+| DELETE | /api/cards/:id/comments/:cmId | Delete comment |
+
+### Members & Search
+| Method | Path | Description |
+|--------|------|-------------|
+| GET    | /api/members | All members |
+| GET    | /api/members/default | Current (default) member |
+| GET    | /api/search/cards | Search/filter cards |
+
+---
+
+## Assumptions
+
+1. **No authentication** — a single member with `is_default=1` is treated as the logged-in user. All write actions are attributed to this member.
+2. **Sample members** seeded: Alex Johnson (default), Sarah Chen, Marcus Webb, Priya Patel, Daniel Kim.
+3. **Archive vs delete** — "deleting" a card or list sets `is_archived=1` and hides it from the UI. True deletion is only via MySQL cascade when a board is deleted.
+4. **Labels are per-board** — each board gets its own set of labels. Default labels (Feature, Bug, Improvement, Critical, Research, Backend) are created automatically with each new board.
+5. **Drag-and-drop positions** — on drop, a bulk reorder call updates all affected cards' positions. This keeps positions consistent without floating point drift.
+6. **File uploads schema** is designed (attachments table) but the upload endpoint is not wired up in the frontend (bonus feature).
+
+---
+
+## Project Structure
+
+```
+backend/src/
+├── config/database.js      # MySQL pool
+├── controllers/            # Business logic
+│   ├── boardController.js
+│   ├── listController.js
+│   ├── cardController.js
+│   ├── memberController.js
+│   └── searchController.js
+├── routes/                 # Express routers
+├── migrations/schema.sql   # Full DB schema
+├── seeds/run.js            # Sample data seeder
+└── index.js                # App entry point
+
+frontend/src/
+├── components/
+│   ├── Board/              # BoardsHome, BoardView, FilterBar
+│   ├── List/               # BoardList (sortable column)
+│   ├── Card/               # CardItem (thumbnail), CardModal (detail)
+│   └── Common/             # Header, Avatar, Notification
+├── context/
+│   ├── AppContext.js       # Global state (member, notification)
+│   └── BoardContext.js     # Board-level state (lists, cards)
+├── utils/api.js            # Axios API layer
+└── styles/globals.css      # Design system / variables
+```

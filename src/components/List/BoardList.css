@@ -1,0 +1,73 @@
+.board-list {
+  flex-shrink: 0; width: 272px;
+  background: #101204;
+  border-radius: var(--radius-md);
+  max-height: calc(100vh - 120px);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+
+.list-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 8px 8px 12px;
+  cursor: grab; flex-shrink: 0;
+  min-height: 40px;
+}
+.list-header:active { cursor: grabbing; }
+
+.list-title {
+  font-size: var(--font-size-sm); font-weight: 700; color: #b6c2cf;
+  flex: 1; cursor: pointer; word-break: break-word;
+  padding: 2px 4px; border-radius: 3px; margin: 0;
+}
+.list-title:hover { background: rgba(255,255,255,.1); }
+
+.list-title-input {
+  flex: 1; font-size: var(--font-size-sm); font-weight: 700;
+  background: #1d2125; color: #b6c2cf; border: 2px solid var(--trello-blue);
+  border-radius: 3px; padding: 2px 6px; outline: none;
+  font-family: var(--font); cursor: auto;
+}
+
+.list-menu-btn {
+  background: none; border: none; color: #9fadbc; cursor: pointer;
+  padding: 4px 6px; border-radius: 3px; display: flex; align-items: center;
+  transition: background .1s; flex-shrink: 0;
+}
+.list-menu-btn:hover { background: rgba(255,255,255,.1); color: #b6c2cf; }
+
+.list-menu {
+  position: absolute; top: calc(100% + 4px); right: 0; z-index: 100;
+  background: #282e33; border-radius: var(--radius-md);
+  box-shadow: 0 8px 16px rgba(0,0,0,.45); min-width: 200px; overflow: hidden;
+  padding: 6px;
+}
+.list-menu button {
+  display: block; width: 100%; text-align: left;
+  padding: 7px 12px; font-size: var(--font-size-sm); font-family: var(--font);
+  background: none; border: none; color: #b6c2cf; cursor: pointer;
+  border-radius: 4px; transition: background .1s;
+}
+.list-menu button:hover { background: rgba(255,255,255,.1); color: #c7d1db; }
+.list-menu button.danger:hover { background: #c9372c; color: #fff; }
+
+.list-cards {
+  flex: 1; overflow-y: auto; padding: 0 4px;
+  scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.2) transparent;
+}
+
+.list-add-card-btn {
+  flex-shrink: 0;
+  background: none; border: none; color: #9fadbc;
+  padding: 8px 12px; cursor: pointer; width: 100%;
+  text-align: left; font-size: var(--font-size-sm);
+  font-family: var(--font); font-weight: 400;
+  display: flex; align-items: center; gap: 6px;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  transition: background .1s, color .1s;
+}
+.list-add-card-btn:hover { background: rgba(255,255,255,.1); color: #c7d1db; }
+
+.list-add-card-form {
+  flex-shrink: 0; padding: 4px 8px 8px;
+}

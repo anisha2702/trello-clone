@@ -1,0 +1,67 @@
+.board-view {
+  flex: 1; display: flex; flex-direction: column; overflow: hidden;
+  background: var(--board-bg, #1d2125);
+  position: relative;
+}
+.board-view::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: rgba(0,0,0,.32);
+}
+
+.board-header {
+  position: relative; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+  padding: 8px 12px; gap: 8px;
+  background: rgba(0,0,0,.24);
+}
+.board-header-left { display: flex; align-items: center; gap: 6px; }
+
+.board-back-btn {
+  background: rgba(255,255,255,.2); border: none; color: #fff;
+  width: 30px; height: 30px; border-radius: var(--radius-sm); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: background .1s;
+}
+.board-back-btn:hover { background: rgba(255,255,255,.3); }
+
+.board-title {
+  color: #fff; font-size: 16px; font-weight: 700;
+  padding: 4px 8px; border-radius: var(--radius-sm);
+  cursor: pointer; border: 2px solid transparent;
+  transition: background .1s;
+}
+.board-title:hover { background: rgba(255,255,255,.15); }
+
+.board-star-btn {
+  background: none; border: none; color: rgba(255,255,255,.75); cursor: pointer;
+  padding: 5px; border-radius: 3px; display: flex; transition: background .1s;
+}
+.board-star-btn:hover { background: rgba(255,255,255,.2); }
+
+.board-canvas {
+  flex: 1; overflow-x: auto; overflow-y: hidden; position: relative; z-index: 1;
+  padding: 8px 8px 0;
+}
+.lists-container {
+  display: flex; gap: 10px; align-items: flex-start;
+  min-height: calc(100vh - 120px); padding-bottom: 8px;
+}
+
+.add-list-btn {
+  flex-shrink: 0; width: 272px; height: 40px;
+  background: rgba(255,255,255,.2);
+  border: none; color: #fff; border-radius: var(--radius-md);
+  cursor: pointer; font-size: 14px; font-weight: 500; font-family: var(--font);
+  display: flex; align-items: center; gap: 6px; padding: 0 12px;
+  transition: background .1s; white-space: nowrap;
+}
+.add-list-btn:hover { background: rgba(255,255,255,.28); }
+
+.add-list-form {
+  flex-shrink: 0; width: 272px; background: var(--surface-2);
+  border-radius: var(--radius-md); padding: 8px;
+}
+
+.list-drag-ghost {
+  background: rgba(255,255,255,.2); border-radius: var(--radius-md);
+  opacity: .5;
+}
