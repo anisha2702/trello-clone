@@ -21,7 +21,7 @@ export default function BoardView() {
 function BoardViewInner() {
   const { id } = useParams();
   const { board, loading, error, dispatch, setBoard, setLoading, setError } = useBoard();
-  const { notify } = useApp();
+  // const { notify } = useApp();
   const [activeCard, setActiveCard] = useState(null);
   const [activeList, setActiveList] = useState(null);
   const [openCardId, setOpenCardId] = useState(null);
@@ -74,7 +74,7 @@ function BoardViewInner() {
     if (!activeContId || !overContId || activeContId === overContId) return;
     // Card moving between lists (preview)
     const activeCont = board.lists.find(l => l.id === activeContId);
-    const overCont   = board.lists.find(l => l.id === overContId);
+    // const overCont   = board.lists.find(l => l.id === overContId);
     if (!activeCont || !overCont) return;
     const card = activeCont.cards.find(c => c.id === active.id);
     if (!card) return;

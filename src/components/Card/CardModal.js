@@ -18,7 +18,7 @@ export default function CardModal({ cardId, boardLabels, boardMembers, onClose, 
       notify('Failed to load card', 'error');
       onClose();
     } finally { setLoading(false); }
-  }, [cardId]);
+  }, [cardId, notify, onClose]);
 
   useEffect(() => { loadCard(); }, [loadCard]);
 
