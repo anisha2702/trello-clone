@@ -21,7 +21,6 @@ export default function BoardView() {
 function BoardViewInner() {
   const { id } = useParams();
   const { board, loading, error, dispatch, setBoard, setLoading, setError } = useBoard();
-  // const { notify } = useApp();
   const [activeCard, setActiveCard] = useState(null);
   const [activeList, setActiveList] = useState(null);
   const [openCardId, setOpenCardId] = useState(null);
@@ -74,8 +73,8 @@ function BoardViewInner() {
     if (!activeContId || !overContId || activeContId === overContId) return;
     // Card moving between lists (preview)
     const activeCont = board.lists.find(l => l.id === activeContId);
-    // const overCont   = board.lists.find(l => l.id === overContId);
-    if (!activeCont || !overCont) return;
+    
+    if (!activeCont || !overContId) return;
     const card = activeCont.cards.find(c => c.id === active.id);
     if (!card) return;
     const newLists = board.lists.map(l => {
@@ -113,8 +112,6 @@ function BoardViewInner() {
     if (!activeContId || !overContId) return;
 
     const activeCont = board.lists.find(l => l.id === activeContId);
-    const overCont   = board.lists.find(l => l.id === overContId);
-
     if (activeContId === overContId) {
       const oldIdx = activeCont.cards.findIndex(c => c.id === active.id);
       const newIdx = activeCont.cards.findIndex(c => c.id === over.id);
