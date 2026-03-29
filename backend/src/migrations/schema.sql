@@ -2,8 +2,8 @@
 -- Trello Clone Database Schema
 -- ============================================================
 
-CREATE DATABASE IF NOT EXISTS trello_clone CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE trello_clone;
+-- CREATE DATABASE IF NOT EXISTS trello_clone CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- USE trello_clone;
 
 -- ------------------------------------------------------------
 -- members (users) — no auth required, default user pre-seeded
